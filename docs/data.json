@@ -1,12 +1,18 @@
 {
   "source_url": "https://www.lacanau.fr/actualite/incendie-en-cours-saumos/",
   "status": "ok",
-  "last_checked": "2026-07-26T20:02:44.456453+00:00",
-  "last_changed": "2026-07-26T20:02:44.456453+00:00",
-  "current_title": "Incendie en cours : point de situation le 26/7 à 21H00",
+  "last_checked": "2026-07-26T21:10:22.435787+00:00",
+  "last_changed": "2026-07-26T21:10:22.435787+00:00",
+  "current_title": "Incendie en cours : point de situation le 26/7 à 22H30",
   "fail_count": 0,
-  "generated_at": "2026-07-26T20:02:44.776651+00:00",
+  "generated_at": "2026-07-26T21:10:22.564679+00:00",
   "history": [
+    {
+      "timestamp": "2026-07-26T21:10:22.435904+00:00",
+      "kind": "change",
+      "title": "Incendie en cours : point de situation le 26/7 à 22H30",
+      "excerpt": "Point incendie – Lacanau Dimanche 26 juillet à 22h30 Dernier point de la soirée. Grâce au travail remarquable de tous les intervenants, notamment le SDIS, les agriculteurs, les bénévoles, les nombreux moyens aériens mobilisés aujourd’hui ainsi que les entreprises ayant œuvré sans relâche à la mise en place des pare-feux, la situation est désormais favorable . Aucune habitation n’a été touchée. Les"
+    },
     {
       "timestamp": "2026-07-26T20:02:44.456579+00:00",
       "kind": "baseline",
