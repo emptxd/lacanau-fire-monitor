@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lacanau Fire Monitor</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --text: #1a1d21; --muted: #6b7280;
+    --border: #e5e7eb; --ok: #16a34a; --change: #dc2626; --warn: #d97706;
+    --accent: #2563eb; --shadow: 0 1px 3px rgba(0,0,0,.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1216; --card: #1a1f26; --text: #e5e7eb; --muted: #9ca3af;
+      --border: #2a3038; --shadow: 0 1px 3px rgba(0,0,0,.4);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 24px 16px; background: var(--bg); color: var(--text);
+    font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 20px; font-size: .9rem; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 20px; margin-bottom: 16px; box-shadow: var(--shadow);
+  }
+  .status-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px; font-weight: 600;
+    padding: 6px 14px; border-radius: 999px; font-size: .95rem;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .badge.ok   { background: color-mix(in srgb, var(--ok) 14%, transparent); color: var(--ok); }
+  .badge.ok .dot { background: var(--ok); }
+  .badge.error{ background: color-mix(in srgb, var(--warn) 16%, transparent); color: var(--warn); }
+  .badge.error .dot { background: var(--warn); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-top: 16px; }
+  .stat .label { color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; }
+  .stat .value { font-size: 1.05rem; font-weight: 600; margin-top: 2px; }
+  .title-now { margin-top: 14px; font-size: 1rem; font-weight: 600; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  h2 { font-size: 1rem; margin: 4px 0 12px; }
+  .event { padding: 12px 0; border-top: 1px solid var(--border); }
+  .event:first-child { border-top: none; }
+  .event .meta { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  .kind { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 2px 8px; border-radius: 6px; }
+  .kind.change   { background: color-mix(in srgb, var(--change) 16%, transparent); color: var(--change); }
+  .kind.baseline { background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); }
+  .kind.heartbeat{ background: color-mix(in srgb, var(--ok) 14%, transparent); color: var(--ok); }
+  .kind.error    { background: color-mix(in srgb, var(--warn) 16%, transparent); color: var(--warn); }
+  .event .when { color: var(--muted); font-size: .82rem; }
+  .event .etitle { margin-top: 4px; font-weight: 500; }
+  .event .excerpt { margin-top: 4px; color: var(--muted); font-size: .88rem; white-space: pre-wrap; }
+  .foot { color: var(--muted); font-size: .8rem; text-align: center; margin-top: 8px; }
+  .err { color: var(--warn); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🔥 Lacanau Fire Monitor</h1>
+  <p class="sub">Watching the municipal bulletin for updates &middot;
+    <a id="src" href="#" target="_blank" rel="noopener">source page ↗</a></p>
+
+  <div class="card">
+    <div class="status-row">
+      <span id="badge" class="badge ok"><span class="dot"></span><span id="badge-text">Loading…</span></span>
+    </div>
+    <div id="title-now" class="title-now"></div>
+    <div class="grid">
+      <div class="stat"><div class="label">Last checked</div><div class="value" id="last-checked">—</div></div>
+      <div class="stat"><div class="label">Last change</div><div class="value" id="last-changed">—</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>History</h2>
+    <div id="history"></div>
+  </div>
+
+  <p class="foot" id="foot">—</p>
+</div>
+
+<script>
+const KIND_LABEL = { change: "Update detected", baseline: "Baseline set", heartbeat: "Heartbeat", error: "Fetch error" };
+
+function ago(iso) {
+  if (!iso) return "—";
+  const d = new Date(iso), diff = (Date.now() - d.getTime()) / 1000;
+  if (isNaN(diff)) return "—";
+  let rel;
+  if (diff < 60) rel = "just now";
+  else if (diff < 3600) rel = Math.floor(diff / 60) + "m ago";
+  else if (diff < 86400) rel = Math.floor(diff / 3600) + "h ago";
+  else rel = Math.floor(diff / 86400) + "d ago";
+  return d.toLocaleString([], { dateStyle: "medium", timeStyle: "short" }) + " (" + rel + ")";
+}
+
+function esc(s) {
+  return (s || "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+}
+
+async function load() {
+  try {
+    const res = await fetch("data.json?t=" + Date.now(), { cache: "no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const d = await res.json();
+
+    document.getElementById("src").href = d.source_url;
+
+    const ok = d.status === "ok";
+    const badge = document.getElementById("badge");
+    badge.className = "badge " + (ok ? "ok" : "error");
+    document.getElementById("badge-text").textContent =
+      ok ? "Monitoring" : "Can't reach page (" + (d.fail_count || 0) + " fails)";
+
+    document.getElementById("title-now").textContent = d.current_title || "";
+    document.getElementById("last-checked").textContent = ago(d.last_checked);
+    document.getElementById("last-changed").textContent = ago(d.last_changed);
+
+    const hist = d.history || [];
+    document.getElementById("history").innerHTML = hist.length ? hist.map(e => `
+      <div class="event">
+        <div class="meta">
+          <span class="kind ${esc(e.kind)}">${esc(KIND_LABEL[e.kind] || e.kind)}</span>
+          <span class="when">${esc(ago(e.timestamp))}</span>
+        </div>
+        ${e.title ? `<div class="etitle">${esc(e.title)}</div>` : ""}
+        ${e.excerpt ? `<div class="excerpt">${esc(e.excerpt)}</div>` : ""}
+      </div>`).join("") : "<p class='sub'>No events yet.</p>";
+
+    document.getElementById("foot").textContent = "Data generated " + ago(d.generated_at) + " · auto-refreshes every 60s";
+  } catch (err) {
+    document.getElementById("badge-text").textContent = "Dashboard data not available yet";
+    document.getElementById("foot").innerHTML = "<span class='err'>" + esc(String(err)) + "</span>";
+  }
+}
+
+load();
+setInterval(load, 60000);
+</script>
+</body>
+</html>

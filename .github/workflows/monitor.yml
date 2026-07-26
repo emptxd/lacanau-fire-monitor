@@ -1,0 +1,46 @@
+name: Lacanau fire monitor
+
+on:
+  schedule:
+    # Every 15 minutes. GitHub cron is best-effort and can be delayed ~5-15 min.
+    - cron: "*/15 * * * *"
+  workflow_dispatch: {}   # allow manual runs from the Actions tab
+
+# Needed so the job can commit updated state back to the repo.
+permissions:
+  contents: write
+
+concurrency:
+  group: monitor
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run monitor
+        env:
+          NTFY_URL: ${{ secrets.NTFY_URL }}
+        run: python monitor.py
+
+      - name: Commit state
+        run: |
+          git config user.name "lacanau-monitor[bot]"
+          git config user.email "actions@github.com"
+          git add state.json history.json docs/data.json
+          if git diff --cached --quiet; then
+            echo "No state changes to commit."
+          else
+            git commit -m "state update [skip ci]"
+            git push
+          fi
