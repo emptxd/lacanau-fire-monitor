@@ -1,12 +1,18 @@
 {
   "source_url": "https://www.lacanau.fr/actualite/incendie-en-cours-saumos/",
   "status": "ok",
-  "last_checked": "2026-07-28T06:14:02.797087+00:00",
-  "last_changed": "2026-07-27T16:03:52.271313+00:00",
+  "last_checked": "2026-07-28T11:26:49.400781+00:00",
+  "last_changed": "2026-07-28T11:26:49.400781+00:00",
   "current_title": "Incendie en cours : point de situation le 27/7 à 17h30",
   "fail_count": 0,
-  "generated_at": "2026-07-28T06:14:02.797479+00:00",
+  "generated_at": "2026-07-28T11:26:49.680300+00:00",
   "history": [
+    {
+      "timestamp": "2026-07-28T11:26:49.400959+00:00",
+      "kind": "change",
+      "title": "Incendie en cours : point de situation le 27/7 à 17h30",
+      "excerpt": "Évacuation des campings et hébergements collectifs de tourisme point le 28.07 à 10h30 En raison des conditions météorologiques (canicule) et pour faciliter les opérations de secours la préfète a ordonné l’évacuation préventive des campings de Lacanau ainsi que les résidences COLLECTIVES de tourisme, villages vacances. L’ensemble des campings de la ville, du lac et de l’océan sera évacué dans le ca"
+    },
     {
       "timestamp": "2026-07-27T16:03:52.271463+00:00",
       "kind": "change",
