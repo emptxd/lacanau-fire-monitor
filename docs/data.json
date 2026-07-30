@@ -1,12 +1,18 @@
 {
   "source_url": "https://www.lacanau.fr/actualite/incendie-en-cours-saumos/",
   "status": "ok",
-  "last_checked": "2026-07-30T08:47:18.839333+00:00",
-  "last_changed": "2026-07-30T08:47:18.839333+00:00",
-  "current_title": "Incendie en cours : point de situation le 30.07 à 09H00",
+  "last_checked": "2026-07-30T10:59:51.893388+00:00",
+  "last_changed": "2026-07-30T10:59:51.893388+00:00",
+  "current_title": "Incendie en cours : point de situation le 30.07 à 12h30",
   "fail_count": 0,
-  "generated_at": "2026-07-30T08:47:18.895586+00:00",
+  "generated_at": "2026-07-30T10:59:52.002146+00:00",
   "history": [
+    {
+      "timestamp": "2026-07-30T10:59:51.893610+00:00",
+      "kind": "change",
+      "title": "Incendie en cours : point de situation le 30.07 à 12h30",
+      "excerpt": "Incendie en cours – Point de situation de la Ville de Lacanau Jeudi 30 juillet – 12h30 La situation reste stabilisée depuis ce matin à l’échelle de l’incendie. Les opérations se poursuivent sur les lisières et les différents points chauds, avec une vigilance chez nous particulière sur le secteur situé au sud du lac de Lacanau. Voici la carte interactive de la préfecture qui répertorie les routes f"
+    },
     {
       "timestamp": "2026-07-30T08:47:18.839489+00:00",
       "kind": "change",
