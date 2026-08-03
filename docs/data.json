@@ -1,12 +1,18 @@
 {
   "source_url": "https://www.lacanau.fr/actualite/incendie-en-cours-saumos/",
   "status": "ok",
-  "last_checked": "2026-08-03T14:21:22.308315+00:00",
-  "last_changed": "2026-08-03T14:21:22.308315+00:00",
-  "current_title": "Incendie en gironde Feu Fixé point de situation le 02 aout",
+  "last_checked": "2026-08-03T18:44:19.249612+00:00",
+  "last_changed": "2026-08-03T18:44:19.249612+00:00",
+  "current_title": "Feu fixé en gironde : point de situation lundi 3 août à 17h30",
   "fail_count": 0,
-  "generated_at": "2026-08-03T14:21:22.576448+00:00",
+  "generated_at": "2026-08-03T18:44:19.501233+00:00",
   "history": [
+    {
+      "timestamp": "2026-08-03T18:44:19.249755+00:00",
+      "kind": "change",
+      "title": "Feu fixé en gironde : point de situation lundi 3 août à 17h30",
+      "excerpt": "Point de situation lundi 3 août à 17h30 😊 Reprise progressive des activités à Lacanau La préfète de Gironde a annoncé que l’incendie était désormais fixé , ce qui signifie que le feu ne progresse plus. Toutefois, les opérations de surveillance se poursuivent afin de traiter les derniers points chauds et de prévenir tout risque de reprise. Les pompiers, les équipes de la DFCI et les forces mobilisé"
+    },
     {
       "timestamp": "2026-08-03T14:21:22.308504+00:00",
       "kind": "change",
