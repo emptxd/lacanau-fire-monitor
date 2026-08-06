@@ -1,12 +1,18 @@
 {
   "source_url": "https://www.lacanau.fr/actualite/incendie-en-cours-saumos/",
   "status": "ok",
-  "last_checked": "2026-08-06T07:43:09.624684+00:00",
+  "last_checked": "2026-08-06T12:24:19.896666+00:00",
   "last_changed": "2026-08-05T09:49:29.576730+00:00",
   "current_title": "Feu fixé en gironde : point de situation lundi 3 août à 17h30",
   "fail_count": 0,
-  "generated_at": "2026-08-06T07:43:09.625620+00:00",
+  "generated_at": "2026-08-06T12:24:20.183550+00:00",
   "history": [
+    {
+      "timestamp": "2026-08-06T12:24:19.896880+00:00",
+      "kind": "heartbeat",
+      "title": "Feu fixé en gironde : point de situation lundi 3 août à 17h30",
+      "excerpt": ""
+    },
     {
       "timestamp": "2026-08-05T09:49:29.576962+00:00",
       "kind": "change",
